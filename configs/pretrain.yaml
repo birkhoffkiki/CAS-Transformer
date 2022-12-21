@@ -1,0 +1,79 @@
+# please change path
+
+OUTPUT: './output'
+TAG: pretrain 
+PRINT_FREQ: 50
+SAVE_FREQ: 10
+SEED: 120
+
+MODEL:
+  TYPE: maeuscaswinvs
+  NAME: caswinvs_base_patch1_window8_128_6_6
+  DROP_PATH_RATE: 0.2
+  PRETRAINED: ''
+  RESUME: ''
+  INPUT_SIZE: 128
+  SWIN:
+    PATCH_SIZE: 1
+    IN_CHANS: 13
+    OUT_CHANS: 1
+    EMBED_DIM: 60
+    DEPTHS: [6, 6, 6, 6, 6]
+    NUM_HEADS: [6, 6, 6, 6, 6]
+    WINDOW_SIZE: 8
+    IS_PRETRAIN: True
+    POS_EMBED_MODE: 'sin'
+    DECODER_DEPTH: 6
+    DECODER_EMBED_DIM: 48
+    PRETRAIN_US_WINDOW: 2
+    MASK_RATIO: 0.5
+    IS_RESIZE_FEATURE_MAPS: True  # bilinear 0.5, default
+
+
+DATA:
+  BATCH_SIZE: 2
+  # data root path
+  DATA_PATH: '/home/jmabq/projects/VirtualStainingSOTA/GPT/data'    # please change this to the actual path
+  # dataset name
+  DATASET: 'silicio'
+  IMG_SIZE: [64, 128, 256]
+  NUM_WORKERS: 4
+  # json file path for training
+  TRAIN_JSON_FILE: /home/jmabq/projects/VirtualStainingSOTA/GPT/data/patches_train.json # please change this to the actual path
+  # json file path for testing
+  TEST_JSON_FILE: /home/jmabq/projects/VirtualStainingSOTA/GPT/data/patches_test.json # please change this to the actual path
+  DATA_SAMPLE_RATIO: 1.0 # use all data
+  FUSION_PROB: 0.0
+  LOG_TRANSFORM: True
+
+  DAPI_CONFOCAL: 0
+  CELLMASK_CONFOCAL: 1
+  NFH_CONFOCAL: 2
+  MAP2_CONFOCAL: 3
+  TUJ1_WIDEFIELD: 4
+  ISLET_WIDEFIELD: 5
+  DAPI_WIDEFIELD: 6
+  DEAD_CONFOCAL: 7
+
+TRAIN:
+  START_EPOCH: 0
+  EPOCHS: 100000  # total epoches
+  WARMUP_EPOCHS: 0
+  WEIGHT_DECAY: 0.0
+  BASE_LR: 1e-4
+  MIN_LR: 1e-6  # useless if use step scheduler
+  WARMUP_LR: 5e-7
+  PHASE_LOSS_RATIO: 0.01
+  REC_LOSS_NAME: 'ch' # ce, l1, smoothl1, ch, mse
+
+  LR_SCHEDULER:
+    NAME: step
+    DECAY_EPOCHS: 100000 # no decay
+    DECAY_RATE: 0.1
+
+
+  OPTIMIZER:
+    NAME: adam
+    EPS: 1e-8
+    BETAS: [0.9, 0.999]
+    MOMENTUM: 0.9

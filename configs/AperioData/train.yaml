@@ -1,0 +1,71 @@
+OUTPUT: './output'
+TAG: Aperiodata
+PRINT_FREQ: 20
+SAVE_FREQ: 1
+SEED: 120
+
+MODEL:
+  TYPE: maeuscaswinvs
+  NAME: caswinvs_base_patch1_window8_128_6_6
+  DROP_PATH_RATE: 0.2
+  PRETRAINED: ''  # input size is not same, do not use pretrained parameters.
+  RESUME: ''
+  INPUT_SIZE: 256
+  SWIN:
+    PATCH_SIZE: 1
+    IN_CHANS: 3
+    OUT_CHANS: 3
+    EMBED_DIM: 60
+    DEPTHS: [6, 6, 6, 6, 6]
+    NUM_HEADS: [6, 6, 6, 6, 6]
+    WINDOW_SIZE: 8
+    IS_PRETRAIN: False    # set false for train mode
+    POS_EMBED_MODE: 'sin'
+    DECODER_DEPTH: 6
+    DECODER_EMBED_DIM: 48
+    PRETRAIN_US_WINDOW: 4
+
+
+DATA:
+  BATCH_SIZE: 1
+  DATA_PATH: '/home/jmabq/data/aperio_hamamatsu'
+  DATASET: 'aperio'
+  IMG_SIZE: [128, 256, 512]
+  NUM_WORKERS: 2
+
+TRAIN:
+  START_EPOCH: 0
+  EPOCHS: 150
+  WARMUP_EPOCHS: 0
+  WEIGHT_DECAY: 0.0
+  BASE_LR: 1e-4
+  MIN_LR: 1e-7  # useless if use step scheduler
+  WARMUP_LR: 5e-7
+  PHASE_LOSS_RATIO: 0.0
+  REC_LOSS_NAME: 'ch' # ce, l1, smoothl1, ch, mse
+
+  LR_SCHEDULER:
+    NAME: step
+    DECAY_EPOCHS: 100
+    DECAY_RATE: 0.1
+
+  LR_SCHEDULER_D:
+    NAME: step
+    DECAY_EPOCHS: 1000000
+    DECAY_RATE: 0.5
+  
+  GAN:
+    START_EPOCH: 0
+    G_GAN_RATIO: 1.0
+    TYPE: 'lsgan'
+
+  OPTIMIZER:
+    NAME: adam
+    EPS: 1e-8
+    BETAS: [0.9, 0.999]
+    MOMENTUM: 0.9
+
+  OPTIMIZER_D:
+    NAME: adam
+    BASE_LR: 1e-5
+    WEIGHT_DECAY: 0.02

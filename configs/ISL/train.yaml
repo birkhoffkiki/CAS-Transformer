@@ -1,0 +1,86 @@
+
+OUTPUT: './output'
+TAG: ISLData
+PRINT_FREQ: 50
+SAVE_FREQ: 1
+SEED: 120
+
+MODEL:
+  TYPE: maeuscaswinvs
+  NAME: caswinvs_base_patch1_window8_128_6_6
+  DROP_PATH_RATE: 0.2
+  PRETRAINED: ''  # pretrained weights, attention if the pretrain size is not equal to train size, see load_pretrained in utils.py for details.
+  RESUME: ''
+  INPUT_SIZE: 128
+  SWIN:
+    PATCH_SIZE: 1
+    IN_CHANS: 13
+    OUT_CHANS: 8
+    EMBED_DIM: 60
+    DEPTHS: [6, 6, 6, 6, 6]
+    NUM_HEADS: [6, 6, 6, 6, 6]
+    WINDOW_SIZE: 8
+    IS_PRETRAIN: False    # set false for train mode
+    POS_EMBED_MODE: 'sin'
+    HEAD_TYPE: 'conv'
+    DECODER_DEPTH: 6
+    DECODER_EMBED_DIM: 48
+
+
+DATA:
+  BATCH_SIZE: 4
+  DATA_PATH: '/home/jmabq/projects/VirtualStainingSOTA/GPT/data'
+  DATASET: 'islgpt' # train use "islgpt" for accelration, and use "silicio" for predict
+  IMG_SIZE: [64, 128, 256]
+  NUM_WORKERS: 2
+  TRAIN_JSON_FILE: /home/jmabq/projects/VirtualStainingSOTA/GPT/data/patches_train.json
+  TEST_JSON_FILE: /home/jmabq/projects/VirtualStainingSOTA/GPT/data/patches_test_64.json
+  DATA_SAMPLE_RATIO: 1.0 # use all data
+  FUSION_PROB: 0.0
+  LOG_TRANSFORM: True # 
+
+  DAPI_CONFOCAL: 0
+  CELLMASK_CONFOCAL: 1
+  NFH_CONFOCAL: 2
+  MAP2_CONFOCAL: 3
+  TUJ1_WIDEFIELD: 4
+  ISLET_WIDEFIELD: 5
+  DAPI_WIDEFIELD: 6
+  DEAD_CONFOCAL: 7
+
+TRAIN:
+  START_EPOCH: 0
+  EPOCHS: 100 # total epoches
+  WARMUP_EPOCHS: 0
+  WEIGHT_DECAY: 0.0
+  BASE_LR: 1e-5
+  MIN_LR: 1e-7  # useless if use step scheduler
+  WARMUP_LR: 5e-7
+  PHASE_LOSS_RATIO: 0.0
+  REC_LOSS_NAME: 'ch' # ce, l1, smoothl1, ch, mse
+
+  LR_SCHEDULER:
+    NAME: step
+    DECAY_EPOCHS: 20
+    DECAY_RATE: 0.5
+
+  LR_SCHEDULER_D:
+    NAME: step
+    DECAY_EPOCHS: 20
+    DECAY_RATE: 0.5
+  
+  GAN:
+    START_EPOCH: 25
+    G_GAN_RATIO: 0.001
+    TYPE: 'patchGAN'
+
+  OPTIMIZER:
+    NAME: adam
+    EPS: 1e-8
+    BETAS: [0.9, 0.999]
+    MOMENTUM: 0.9
+
+  OPTIMIZER_D:
+    NAME: adam
+    BASE_LR: 1e-5
+    WEIGHT_DECAY: 0.02
