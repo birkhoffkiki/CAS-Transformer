@@ -86,7 +86,7 @@ if __name__ == '__main__':
         resume_file = os.path.join(config.OUTPUT, config.MODEL.NAME, config.TAG, ckpt)
         
     logger.info('ckpt file: {}'.format(resume_file))
-    info = model.load_state_dict(torch.load(resume_file)['model'])
+    info = model.load_state_dict(torch.load(resume_file))
     print(info)
     validate(config, data_loader_val, model, output_num=model_output_num)
 
