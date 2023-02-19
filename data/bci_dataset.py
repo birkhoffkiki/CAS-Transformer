@@ -38,7 +38,7 @@ class BCIDataset(Dataset):
         ihc_path = os.path.join(self.data_root, self.phase, 'IHC', name) # val is from train
         he = Image.open(he_path)
         ihc = Image.open(ihc_path)
-        if dtype is None:
+        if self.phase == 'train':
             x = random.randint(0, 1024-size)
             y = random.randint(0, 1024-size)
         else:
