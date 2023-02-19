@@ -1,44 +1,17 @@
-# An efficient swin-transformer model for multi-style virtual staining of microscopy images
-
-This is the offical implementation of xxx.
+# Efficient Supervised Pretraining ofSwin-transformer for Virtual Staining of Microscopy Images
 
 ## Introduction
-
-Microscopy can reveal cellular structures, which is very important for life science. Fluorescence
-Recently, deep learning has been used to virtually stain unlabeled biomedical images to avoid the physical staining proce
-Here, we propose a novel swin-transformer-based model for
-virtual staining tasks.
-
-### Framework
-
-![framework](./assets/fig3.png)
-
-## Main Results
-
-Virtually stained images by different methods.
-
-### Statistical Results
-![main results](./assets/table.png)
-
-### Nuclei
-
-![nuclei](./assets/fig4.png)
-
-### Dead cells
-
-![dead](./assets/fig5.png)
-
-### Neurons
-
-![neurons](./assets/fig6.png)
-
-
-## Usage
 
 This project is based on the following projects:  
 
 * https://github.com/microsoft/Swin-Transformer
 * https://github.com/JingyunLiang/SwinIR
+
+### Framework of our method
+
+![framework](./assets/fig3.png)
+
+## Usage
 
 ### Requirements
 
@@ -137,6 +110,33 @@ evaluate Aperio dataset
 # attention the path of dataset
 python predict_aperio.py
 ```
+
+## Main Results
+
+### Performance on the ISL dataset
+
+|  Conditions  |     A     |     A     |     B     |     B     |     C     |     C     |     D     |     D     |    Avg    |    Avg    |
+|:------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|              |    PSNR   |    SSIM   |    PSNR   |    SSIM   |    PSNR   |    SSIM   |    PSNR   |    SSIM   |    PSNR   |    SSIM   |
+|      our     |   24.64   | **0.888** | **28.31** | **0.891** |   33.79   | **0.972** | **23.39** | **0.761** | **28.38** | **0.888** |
+| [cross et al.](https://link.springer.com/content/pdf/10.1038/s41598-022-12914-x.pdf) |   23.48   |   0.859   |   27.46   |   0.876   |   32.26   |   0.967   |   22.55   |   0.738   |   27.36   |   0.873   |
+|  [Bai et al.](https://downloads.spj.sciencemag.org/bmef/2022/9786242.pdf)  |   23.61   |   0.869   |   26.97   |   0.865   |   31.97   |   0.967   |   22.46   |   0.712   |   27.03   |   0.860   |
+|  [Liu et al.](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8964264)  |   18.34   |   0.750   |   22.11   |   0.830   |   26.79   |   0.933   |   18.54   |   0.677   |   22.20   |   0.821   |
+| [Eric et al.](https://www.sciencedirect.com/science/article/pii/S0092867418303647)  | **24.67** | 0.886     | 28.10     | 0.870     | **34.62** | 0.967     | 22.56     | 0.708     | 28.32     | 0.868     |
+
+### Performance on the BCI dataset
+
+|      | [Liu et al.](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8964264)  | [Zhu et al.](http://openaccess.thecvf.com/content_ICCV_2017/papers/Zhu_Unpaired_Image-To-Image_Translation_ICCV_2017_paper.pdf)  | [Isola et al.](https://openaccess.thecvf.com/content_cvpr_2017/papers/Isola_Image-To-Image_Translation_With_CVPR_2017_paper.pdf)  | [Bai et al.](https://downloads.spj.sciencemag.org/bmef/2022/9786242.pdf)  |  Our  |
+|:----:|:-----------:|:-----------:|:-------------:|:-----------:|:-----:|
+| PSNR |    18.90    |    17.57    |     19.93     |    21.45    | 22.21 |
+| SSIM |    0.602    |    0.517    |     0.528     |    0.529    | 0.566 |
+
+### Performance on the Aperio-Hamamatsu dataset
+
+|      | StainNet | StainGAN | reinhard | vahadane | Bai et al.  |    Our    |
+|:----:|:--------:|:--------:|:--------:|----------|:-----------:|:---------:|
+| PSNR |   22.50  |   22.40  |   22.45  | 21.62    |    24.09    | **24.84** |
+| SSIM |   0.691  |   0.703  |   0.638  | 0.659    |    0.754    | **0.768** |
 
 ## contact
 
