@@ -138,6 +138,18 @@ python predict_aperio.py
 | PSNR |   22.50  |   22.40  |   22.45  | 21.62    |    24.09    | **24.84** |
 | SSIM |   0.691  |   0.703  |   0.638  | 0.659    |    0.754    | **0.768** |
 
+## Citation
+@ARTICLE{10328980,
+  author={Ma, Jiabo and Chen, Hao},
+  journal={IEEE Transactions on Medical Imaging}, 
+  title={Efficient Supervised Pretraining of Swin-transformer for Virtual Staining of Microscopy Images}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1-1},
+  doi={10.1109/TMI.2023.3337253}}
+
+
 ## contact
 
 if you have any questions, please feel free to contact me:  
